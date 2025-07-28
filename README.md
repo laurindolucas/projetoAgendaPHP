@@ -83,19 +83,19 @@ Esses arquivos representam páginas distintas da aplicação, por isso não há 
 
 📦 Projeto Agenda de Contatos
 ├── 📁 config
-│   ├── connections.php       
-│   ├── process.php           
-│   └── url.php               
+│   ├── connections.php
+│   ├── process.php
+│   └── url.php
 │
 ├── 📁 css
-│   └── style.css             
+│   └── style.css
 │
 ├── 📁 templates
-│   ├── header.php            
-│   ├── footer.php           
-│   └── backctnk.php          
+│   ├── header.php
+│   ├── footer.php
+│   └── backctnk.php
 │
-├── create.php                
-├── edit.php                  
-├── index.php                 
-└── show.php                 
+├── create.php
+├── edit.php
+├── index.php
+└── show.php

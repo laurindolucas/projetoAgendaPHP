@@ -80,3 +80,22 @@ Esses arquivos representam páginas distintas da aplicação, por isso não há 
 - `show.php`: exibe os detalhes de um contato.
 
 ---
+
+📦 Projeto Agenda de Contatos
+├── 📁 config
+│   ├── connections.php       
+│   ├── process.php           
+│   └── url.php               
+│
+├── 📁 css
+│   └── style.css             
+│
+├── 📁 templates
+│   ├── header.php            
+│   ├── footer.php           
+│   └── backctnk.php          
+│
+├── create.php                
+├── edit.php                  
+├── index.php                 
+└── show.php                 

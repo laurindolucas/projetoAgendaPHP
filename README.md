@@ -80,7 +80,7 @@ Esses arquivos representam páginas distintas da aplicação, por isso não há 
 - `show.php`: exibe os detalhes de um contato.
 
 ---
-## 📂 Estrutura do Projeto
+##  Estrutura final do projeto
 
 ```
 📦 Projeto Agenda de Contatos

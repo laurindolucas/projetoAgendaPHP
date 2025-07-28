@@ -80,7 +80,6 @@ Esses arquivos representam páginas distintas da aplicação, por isso não há 
 - `show.php`: exibe os detalhes de um contato.
 
 ---
-
 📦 Projeto Agenda de Contatos
 ├── 📁 config
 │   ├── connections.php

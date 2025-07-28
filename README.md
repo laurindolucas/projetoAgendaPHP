@@ -102,3 +102,63 @@ Esses arquivos representam páginas distintas da aplicação, por isso não há 
 ├── index.php
 └── show.php
 ```
+
+# Explicando passo a passo como foi feito
+
+---
+
+### 1. Criar o banco de dados
+
+Primeiro, você cria um banco de dados. Eu usei o MySQL, mas como estamos usando PDO, você pode escolher outro tipo de banco de dados. Eu fiz o MySQL por já conhecer e ter familiaridade.
+
+```sql
+CREATE DATABASE agenda; -- crio o banco de dados
+USE agenda; -- digo que estou usando ele
+
+CREATE TABLE contatos (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(100),
+    telefone VARCHAR(100),
+    observacao VARCHAR(200)
+); -- faço a criação da tabela com suas colunas
+
+
+
+   ```
+### 2. Ligação com o banco de dados
+
+No PHP, criamos variáveis com os valores do host, nome do banco, usuário e senha (caso tenha; senão deixe as aspas em branco).
+
+Aqui usamos o PDO para fazer a conexão. Se tudo der certo, ele entra no `try`, caso dê erro, o `catch` é chamado e mostra qual foi o erro.
+
+```php
+<?php
+// Variáveis com os dados do banco de dados
+$host = "hostname";
+$dbname = "databasename";
+$user = "username";
+$pass = "passwordDatabase";
+
+try {
+    // Criando a conexão PDO com o MySQL
+    $conn = new PDO("mysql:host=$host;dbname=$dbname", $user, $pass);
+    // Configurando para mostrar erros do PDO com exceção
+    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+} catch (PDOException $e) {
+    $error = $e->getMessage();
+    echo "Erro: $error";
+}
+```
+
+
+### 3. Formatação de URL
+
+No PHP, a gente precisa formatar a URL caso queira fazer interações entre arquivos. Não é tão simples quanto no HTML, que é algo como `pasta/nomedoArquivo`. No PHP, precisamos fazer um tratamento, e ele é bem simples:
+
+```php
+<?php
+
+$BASE_URL = "http://" . $_SERVER['SERVER_NAME'] . dirname($_SERVER['REQUEST_URI'] . '?') . '/';
+```
+Fazendo isso, você consegue fazer interações entre arquivos corretamente

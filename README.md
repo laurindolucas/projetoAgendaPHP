@@ -180,7 +180,7 @@ if (isset($_SESSION['msg'])) {
     $_SESSION['msg'] = '';
 }
 ?>
-
+```
 Crio toda a estrutura base do HTML, colocando os links de bibliotecas necessárias. Até aqui é tudo padrão:
 
 ```html

@@ -162,3 +162,61 @@ No PHP, a gente precisa formatar a URL caso queira fazer interações entre arqu
 $BASE_URL = "http://" . $_SERVER['SERVER_NAME'] . dirname($_SERVER['REQUEST_URI'] . '?') . '/';
 ```
 Fazendo isso, você consegue fazer interações entre arquivos corretamente
+
+### 4. Criação do Header
+
+A estrutura do PHP é o HTML, já que é uma aplicação web, então usamos muito as tags e todas as coisas.
+
+```php
+<?php
+// Faço a importação do arquivo de URL para poder usar o BASE_URL
+// e também o de process para fazer a interação com o banco de dados
+include_once("config/url.php");
+include_once("config/process.php");
+
+// Verifico se existe uma mensagem de sessão para exibir e limpo ela depois
+if (isset($_SESSION['msg'])) {
+    $printMsg = $_SESSION['msg'];
+    $_SESSION['msg'] = '';
+}
+?>
+
+Crio toda a estrutura base do HTML, colocando os links de bibliotecas necessárias. Até aqui é tudo padrão:
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agenda de Contatos</title>
+
+    <!-- Bootstrap Reboot -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.7/css/bootstrap-reboot.min.css" integrity="sha512-jk0jBZf+2M/6V/Nql7QBoEB3bl+J9apM4VxB+UFTYTgxlO8Wxzb6nroBv+cXyXRjTHEY/HUZUynWqz1aY1/upQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha512-DxV+EoADOkOygM4IR9yXP8Sb2qwgidEmeqAEmDKIOfPRQZOWbXCzLC6vjbZyy0vPisbH2SyW27+ddLVCN+OMzQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+    <!-- Estilo personalizado -->
+    <link rel="stylesheet" href="<?= $BASE_URL ?>css/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <nav class="nav-bar">
+                <div class="nav-links">
+                    <a class="nav-link" id="home-link" href="<?= $BASE_URL ?>index.php">home</a>
+                    <!-- A grande diferença daqui é exatamente a URL, a forma de interagir entre arquivos.
+                         Sempre primeiro vem o comando PHP <?= $BASE_URL ?> e depois o caminho que será seguido -->
+                    <a class="nav-link" id="home-link" href="<?= $BASE_URL ?>create.php">adicionar contato</a>
+                </div>
+            </nav>
+        </header>
+```
+Criamos o header e sua navbar, mas deixamos o body aberto, pois ele só será fechado no footer. Assim, conseguimos criar o escopo de todo o site em diferentes arquivos.
+
+
+

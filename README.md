@@ -585,3 +585,37 @@ if (!empty($data)) {
 ```
 
 > Esse script faz toda a lógica de interação com o banco, usando PDO para maior segurança contra SQL Injection. Ele trata as operações CRUD e também a busca dos dados para exibição nas páginas.
+
+ ## 🚀 Como rodar o projeto
+
+1. Clone este repositório:  
+   git clone https://github.com/laurindolucas/projetoAgendaPHP
+
+2. Configure o banco de dados MySQL e importe a estrutura (arquivo .sql ou execute os comandos fornecidos).
+
+3. Ajuste as configurações de conexão no arquivo config/connections.php com seus dados locais.
+
+4. Abra o projeto no seu servidor local (XAMPP, WAMP, Laragon, etc) e acesse via navegador.
+
+---
+
+## 📚 Próximos passos / Melhorias
+
+- Implementar autenticação de usuário (login/logout).
+- Validar e sanitizar melhor os dados do formulário.
+- Adicionar paginação na listagem de contatos.
+- Criar interface responsiva para dispositivos móveis.
+- Implementar sistema de busca e filtro.
+
+---
+
+## 🤝 Contribuições
+
+Contribuições são muito bem-vindas! Se você quiser ajudar, sinta-se à vontade para abrir issues ou pull requests.
+
+---
+
+## ✉️ Contato
+
+Linkedin : https://www.linkedin.com/in/lucas-laurindo-4b676b31b/
+GitHub: https://github.com/laurindolucas

@@ -241,6 +241,80 @@ include_once("templates/footer.php");
 ```
 
 Isso ajuda a manter o código organizado e reutilizável.
+### 6. Página Principal (`index.php`)
+
+Essa é a página principal da aplicação, onde listamos todos os contatos cadastrados.
+
+Logo no início, fazemos a inclusão do `header.php` com o `include_once`, para carregar toda a estrutura HTML, estilos e navegação:
+
+```php
+<?php
+include_once("templates/header.php");
+?>
+```
+
+Depois, criamos a `div` com a classe `container-index` que envolve todo o conteúdo da página. Verificamos se existe alguma mensagem a ser exibida (vinda da sessão), e caso exista, mostramos:
+
+```php
+<?php if (isset($printMsg) && $printMsg != ''): ?> 
+    <p id="msg"><?= $printMsg ?></p>
+<?php endif; ?>
+```
+
+Exibimos o título da página e em seguida verificamos se há contatos no banco de dados com `if(count($contatos) > 0)`. Se houver, mostramos os dados dentro de uma tabela:
+
+```php
+<table class="table" id="contatos-table">
+    <!-- Cabeçalho -->
+    <thead>
+        <tr>
+            <th scope="col">id</th>
+            <th scope="col">nome</th>
+            <th scope="col">telefone</th>
+            <th scope="col"></th>
+        </tr>
+    </thead>
+
+    <!-- Corpo da tabela com os contatos -->
+    <tbody>
+        <?php foreach($contatos as $contato): ?>
+            <tr>
+                <td scope="row"><?= $contato["id"] ?></td>
+                <td scope="row"><?= $contato["nome"] ?></td>
+                <td scope="row"><?= $contato["telefone"] ?></td>
+                <td class="actions">
+                    <!-- Visualizar contato -->
+                    <a href="<?= $BASE_URL ?>show.php?id=<?= $contato["id"] ?>"><i class="fas fa-eye check-icon"></i></a>
+                    <!-- Editar contato -->
+                    <a href="<?= $BASE_URL ?>edit.php?id=<?= $contato["id"] ?>"><i class="far fa-edit edit-icon"></i></a>
+                    <!-- Excluir contato -->
+                    <form class="delete-form" action="<?= $BASE_URL ?>/config/process.php" method="POST">
+                        <input type="hidden" name="type" value="delete">
+                        <input type="hidden" name="id" value="<?= $contato["id"] ?>">
+                        <button type="submit"><i class="fas fa-times delete-icon"></i></button>
+                    </form>      
+                </td>
+            </tr>
+        <?php endforeach; ?>
+    </tbody>
+</table>
+```
+
+Caso **não exista nenhum contato**, é exibida uma mensagem com um link para adicionar um novo:
+
+```php
+<p class="semContato">Ainda não há contatos na sua agenda, <a href="<?= $BASE_URL ?>create.php">Clique aqui para adicionar</a>.</p>
+```
+
+Por fim, finalizamos a página com a inclusão do `footer.php`, que fecha a estrutura HTML iniciada no `header.php`:
+
+```php
+<?php
+include_once("templates/footer.php");
+?>
+```
+
+Esse padrão de estrutura com `header.php` no topo, conteúdo principal no meio e `footer.php` no final é uma boa prática que ajuda a manter o código limpo, organizado e reutilizável.
  
 
 

@@ -322,5 +322,57 @@ include_once("templates/footer.php");
 
 Esse padrão de estrutura com `header.php` no topo, conteúdo principal no meio e `footer.php` no final é uma boa prática que ajuda a manter o código limpo, organizado e reutilizável.
  
+### 7. Página de Criação de Contato (`create.php`)
 
+Essa é a página responsável por exibir o formulário onde o usuário pode cadastrar um novo contato na agenda.
 
+```php
+<?php
+// Incluímos o header padrão com a estrutura HTML, links e navegação
+include_once("templates/header.php");
+?>
+
+<?php 
+// Botão de voltar para a página anterior
+include_once("templates/backbtn.html"); 
+?>
+
+<h1 class="criar-title">Criar contato</h1>
+
+<div class="container-criar">
+    <!-- Formulário de criação de contato -->
+    <form action="<?= $BASE_URL ?>config/process.php" method="POST" class="form-criar">
+        
+        <!-- Campo oculto para indicar o tipo de ação que será feita no process.php -->
+        <input type="hidden" name="type" value="create">
+
+        <!-- Campo do nome -->
+        <div class="form-group">
+            <label for="name">Nome do contato:</label>
+            <input type="text" class="form-control" id="nome" name="nome" placeholder="Ex: Lucas..." required>
+        </div>
+
+        <!-- Campo do telefone -->
+        <div class="form-group">
+            <label for="name">Telefone do contato:</label>
+            <input type="text" class="form-control" id="telefone" name="telefone" placeholder="Ex: (81)98282-7272..." required>
+        </div>
+
+        <!-- Campo de descrição/observação -->
+        <div class="form-group">
+            <label for="name">Descrição do contato:</label>
+            <textarea type="text" class="form-control" id="descricao" name="descricao" placeholder="Ex: Contato do médico..." row="3"></textarea>
+        </div>
+
+        <!-- Botão para enviar o formulário -->
+        <button type="submit" class="btn-primary">Cadastrar</button>
+    </form>
+</div>
+
+<?php
+// Fechamos a estrutura HTML com o footer padrão
+include_once("templates/footer.php");
+?>
+```
+
+> Esse formulário envia os dados via método POST para o arquivo `process.php`, que está dentro da pasta `config`. Lá, o PHP vai interpretar o campo `type="create"` e inserir o novo contato no banco de dados. A estrutura usa `BASE_URL` para garantir o caminho correto dos arquivos, mesmo se o projeto estiver em uma subpasta.

@@ -217,6 +217,30 @@ Crio toda a estrutura base do HTML, colocando os links de bibliotecas necessári
         </header>
 ```
 Criamos o header e sua navbar, mas deixamos o body aberto, pois ele só será fechado no footer. Assim, conseguimos criar o escopo de todo o site em diferentes arquivos.
+ 
+### 5. Criação do Footer
 
+Como nesse projeto não temos um footer visual, esse arquivo serve apenas para fechar toda a estrutura HTML corretamente:
+
+```html
+    </div>
+</body>
+</html>
+```
+
+Explicando um pouco mais como funciona: eu criei dois templates — o `header.php` e o `footer.php`. Depois, nos outros arquivos (que seriam basicamente o "main" do site, com o conteúdo principal), eu importo o header no início e o footer no final. Entre eles fica o código específico daquele arquivo.
+
+Fica algo assim:
+
+```php
+include_once("templates/header.php");
+
+// Código principal da página
+
+include_once("templates/footer.php");
+```
+
+Isso ajuda a manter o código organizado e reutilizável.
+ 
 
 

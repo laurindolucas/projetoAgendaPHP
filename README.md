@@ -376,3 +376,60 @@ include_once("templates/footer.php");
 ```
 
 > Esse formulário envia os dados via método POST para o arquivo `process.php`, que está dentro da pasta `config`. Lá, o PHP vai interpretar o campo `type="create"` e inserir o novo contato no banco de dados. A estrutura usa `BASE_URL` para garantir o caminho correto dos arquivos, mesmo se o projeto estiver em uma subpasta.
+
+### 8. Página de Edição de Contato (`edit.php`)
+
+Essa página exibe um formulário para editar os dados de um contato existente.
+
+```php
+<?php
+// Inclui o header com a estrutura padrão do site
+include_once("templates/header.php");
+?>
+
+<?php 
+// Botão de voltar para a página anterior
+include_once("templates/backbtn.html"); 
+?>
+
+<h1 class="criar-title">Editar contato</h1>
+
+<div class="container-criar">
+    <!-- Formulário para edição do contato -->
+    <form action="<?= $BASE_URL ?>config/process.php" method="POST" class="form-criar">
+        
+        <!-- Tipo da ação para o process.php saber que é edição -->
+        <input type="hidden" name="type" value="edit">
+        <!-- ID do contato que será editado -->
+        <input type="hidden" name="id" value="<?= $contato['id'] ?>">
+
+        <!-- Campo nome preenchido com o valor atual -->
+        <div class="form-group">
+            <label for="name">Nome do contato:</label>
+            <input type="text" class="form-control" id="nome" name="nome" placeholder="Ex: Lucas..." value="<?= $contato['nome'] ?>" required>
+        </div>
+
+        <!-- Campo telefone preenchido com o valor atual -->
+        <div class="form-group">
+            <label for="name">Telefone do contato:</label>
+            <input type="text" class="form-control" id="telefone" name="telefone" placeholder="Ex: (81)98282-7272..." value="<?= $contato['telefone'] ?>" required>
+        </div>
+
+        <!-- Campo descrição preenchido com o valor atual -->
+        <div class="form-group">
+            <label for="name">Descrição do contato:</label>
+            <textarea type="text" class="form-control" id="descricao" name="descricao" placeholder="Ex: Contato do médico..." row="3"><?= $contato['observacao'] ?></textarea>
+        </div>
+
+        <!-- Botão para enviar o formulário e salvar a edição -->
+        <button type="submit" class="btn-primary">Cadastrar</button>
+    </form>
+</div>
+
+<?php
+// Inclui o footer para fechar a estrutura HTML
+include_once("templates/footer.php");
+?>
+```
+
+> O formulário já vem com os dados atuais do contato para facilitar a edição. Quando enviado, ele faz uma requisição POST para `process.php` com o `type` como "edit" e o `id` do contato, para que a alteração seja atualizada no banco.

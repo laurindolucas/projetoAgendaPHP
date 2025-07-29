@@ -433,3 +433,155 @@ include_once("templates/footer.php");
 ```
 
 > O formulário já vem com os dados atuais do contato para facilitar a edição. Quando enviado, ele faz uma requisição POST para `process.php` com o `type` como "edit" e o `id` do contato, para que a alteração seja atualizada no banco.
+
+### 9. Página de Visualização de Contato (`show.php`)
+
+Essa página exibe os detalhes completos de um contato específico.
+
+```php
+<?php
+// Inclui o header com a estrutura padrão do site
+include_once("templates/header.php");
+?>
+
+<?php 
+// Botão de voltar para a página anterior
+include_once("templates/backbtn.html"); 
+?>
+
+<div class="container-view" id="view-container-contact">
+
+    <!-- Título com o nome do contato -->
+    <h1 id="main-title-view"><?= $contato["nome"] ?></h1>
+
+    <div class="infos">
+        <!-- Exibe o telefone do contato -->
+        <div class="info-telefone">
+            <p>Telefone:</p>
+            <p><?= $contato["telefone"] ?></p>
+        </div>
+
+        <!-- Exibe as observações/descrição do contato -->
+        <div class="info-descricao">
+            <p>Observações:</p>
+            <p><?= $contato["observacao"] ?></p>
+        </div>
+    </div>
+</div>
+
+<?php
+// Inclui o footer para fechar a estrutura HTML
+include_once("templates/footer.php");
+?>
+```
+
+> A página traz as informações detalhadas do contato selecionado, facilitando a visualização rápida e organizada.
+> ### 10. Arquivo de Processamento (`process.php`)
+
+Esse arquivo é responsável por processar as requisições de criação, edição, exclusão e também por buscar os dados dos contatos.
+
+```php
+<?php
+
+session_start();
+include_once("url.php");
+include_once("connections.php");
+
+// Recebe os dados via POST
+$data = $_POST;
+
+if (!empty($data)) {
+
+    // Criar novo contato
+    if ($data["type"] === "create") {
+        $nome = $data["nome"];
+        $telefone = $data["telefone"];
+        $descricao = $data["descricao"];
+
+        $q = "INSERT INTO contatos (nome, telefone, observacao) VALUES (:nome, :telefone, :descricao)";
+        $stmt = $conn->prepare($q);
+
+        $stmt->bindParam(":nome", $nome);
+        $stmt->bindParam(":telefone", $telefone);
+        $stmt->bindParam(":descricao", $descricao);
+
+        try {
+            $stmt->execute();
+        } catch (PDOException $e) {
+            $error = $e->getMessage();
+            echo "Erro: $error";
+        }
+
+    // Editar contato existente
+    } elseif ($data["type"] === "edit") {
+        $nome = $data["nome"];
+        $telefone = $data["telefone"];
+        $descricao = $data["descricao"];
+        $id = $data["id"];
+
+        $q = "UPDATE contatos 
+              SET nome = :nome, telefone = :telefone, observacao = :observacao
+              WHERE id = :id";
+        $stmt = $conn->prepare($q);
+
+        $stmt->bindParam(":nome", $nome);
+        $stmt->bindParam(":telefone", $telefone);
+        $stmt->bindParam(":observacao", $descricao);
+        $stmt->bindParam(":id", $id);
+
+        try {
+            $stmt->execute();
+        } catch (PDOException $e) {
+            $error = $e->getMessage();
+            echo "Erro: $error";
+        }
+
+    // Deletar contato
+    } elseif ($data["type"] === "delete") {
+        $id = $data["id"];
+        $q = "DELETE FROM contatos WHERE id = :id";
+
+        $stmt = $conn->prepare($q);
+        $stmt->bindParam(":id", $id);
+
+        try {
+            $stmt->execute();
+        } catch (PDOException $e) {
+            $error = $e->getMessage();
+            echo "Erro: $error";
+        }
+    }
+
+    // Após o processo, redireciona para a página principal
+    header("Location:" . $BASE_URL . "../index.php");
+
+// Caso não receba dados via POST, faz consulta para mostrar dados
+} else {
+    $id = '';
+    if (!empty($_GET)) {
+        $id = $_GET['id'];
+    }
+
+    // Se tiver ID, busca um contato específico
+    if (!empty($id)) {
+        $q = "SELECT * FROM contatos WHERE id = :id";
+
+        $stmt = $conn->prepare($q);
+        $stmt->bindParam(":id", $id);
+        $stmt->execute();
+        $contato = $stmt->fetch();
+
+    // Se não, busca todos os contatos
+    } else {
+        $contatos = [];
+        $q = "SELECT * FROM contatos";
+
+        $stmt = $conn->prepare($q);
+        $stmt->execute();
+
+        $contatos = $stmt->fetchAll();
+    }
+}
+```
+
+> Esse script faz toda a lógica de interação com o banco, usando PDO para maior segurança contra SQL Injection. Ele trata as operações CRUD e também a busca dos dados para exibição nas páginas.
